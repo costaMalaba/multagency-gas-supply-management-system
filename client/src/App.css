@@ -1,0 +1,15 @@
+.cover-1 {
+    background-color: teal;
+    background-size: cover;
+}
+
+.sidebar, .content {
+    background-color: teal;
+    background-size: cover;
+}
+
+.dashboard_content_cust {
+    background-color: aquamarine;
+    background-image: url("./components/images/gas-3.jpeg");
+    background-size: cover;
+}

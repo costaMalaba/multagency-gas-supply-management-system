@@ -1,62 +1,53 @@
-import { db } from "../db.js";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import con from "../db/database.js";
 
-export const register = (req, res) => {
-  //CHECK EXISTING USER
-  const q = "SELECT * FROM users WHERE email = ? OR username = ?";
+export const logIn = (req, res) => {
+  const q1 = "SELECT * FROM wholesaler WHERE username = ? AND password = ? AND role = ? LIMIT 1";
+  const q2 = "SELECT * FROM retailer WHERE username = ? AND password = ? AND role = ? LIMIT 1";
+  const q3 = "SELECT * FROM customer WHERE username = ? AND password = ? AND role = ? LIMIT 1";
 
-  db.query(q, [req.body.email, req.body.username], (err, data) => {
-    if (err) return res.status(500).json(err);
-    if (data.length) return res.status(409).json("User already exists!");
-
-    //Hash the password and create a user
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(req.body.password, salt);
-
-    const q = "INSERT INTO users(`username`,`email`,`password`) VALUES (?)";
-    const values = [req.body.username, req.body.email, hash];
-
-    db.query(q, [values], (err, data) => {
-      if (err) return res.status(500).json(err);
-      return res.status(200).json("User has been created.");
-    });
-  });
+  const { username, password, role }  = req.body;
+  if (role === '0') {
+    con.query(q1, [username, password, role], (err, result) => {
+      if(err) {
+        return res.status(500).json({Status: "Error", Message: "Error In Query!!", Result: err});
+      } else {
+        if (result.length === 1) {
+          return res.status(200).json({Status: "W_Success", Message: "Logged in successfully", Result: result});
+        } else {
+          return res.status(404).json({Status: "Error", Message: `User  with Name: ${username} Not Found!!`, Result: result});
+        }
+      }
+    })
+  } else if (role === '1') {
+    con.query(q2, [username, password, role], (err, result) => {
+      if(err) {
+        return res.status(500).json({Status: "Error", Message: "Error In Query!!", Result: err});
+      } else {
+        if (result.length === 1) {
+          return res.status(200).json({Status: "R_Success", Message: "Logged in successfully", Result: result});
+        } else {
+          return res.status(404).json({Status: "Error", Message: `User  with Name: ${username} Not Found!!`, Result: result});
+        }
+      }
+    })
+  } else {
+    con.query(q3, [username, password, role], (err, result) => {
+      if(err) {
+        return res.status(500).json({Status: "Error", Message: "Error In Query!!", Result: err});
+      } else {
+        if (result.length === 1) {
+          return res.status(200).json({Status: "C_Success", Message: "Logged in successfully", Result: result });
+        } else {
+          return res.status(404).json({Status: "Error", Message: `User  with Name: ${username} Not Found!!`, Result: result});
+        }
+      }
+    })
+  }
 };
 
-export const login = (req, res) => {
-  //CHECK USER
-
-  const q = "SELECT * FROM users WHERE username = ?";
-
-  db.query(q, [req.body.username], (err, data) => {
-    if (err) return res.status(500).json(err);
-    if (data.length === 0) return res.status(404).json("User not found!");
-
-    //Check password
-    const isPasswordCorrect = bcrypt.compareSync(
-      req.body.password,
-      data[0].password
-    );
-
-    if (!isPasswordCorrect)
-      return res.status(400).json("Wrong username or password!");
-
-    const token = jwt.sign({ id: data[0].id }, "jwtkey");
-    const { password, ...other } = data[0];
-
-    res
-      .cookie("access_token", token, {
-        httpOnly: true,
-      })
-      .status(200)
-      .json(other);
-  });
-};
-
-export const logout = (req, res) => {
+export const logOut = (req, res) => {
   res.clearCookie("access_token",{
     sameSite:"none",
     secure:true
-  }).status(200).json("User has been logged out.")
+  }).json({Satus: "Success", Message: "Logged out successfully"});
 };
