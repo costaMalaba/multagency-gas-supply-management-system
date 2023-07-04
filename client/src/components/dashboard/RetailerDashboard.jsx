@@ -22,14 +22,18 @@ const RetailerDashboard = () => {
     <div className="row flex-nowrap">
         <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 sidebar">
             <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                <Link to="/dashboard/retailer/home" className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                {role !== "2" ? <Link to="/dashboard/retailer/home" className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                     <p className="text-center bg-white rounded-circle text-danger fs-3 p-3 fw-bolder">MAG SUPPLY</p>
-                </Link>
+                </Link> : <Link to="/dashboard/customer/home" className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <p className="text-center bg-white rounded-circle text-danger fs-3 p-3 fw-bolder">MAG SUPPLY</p>
+                </Link>}
                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start fs-4 fw-semibold" id="menu">
                     <li className="nav-item">
-                        <Link to="/dashboard/retailer/home" className="nav-link align-middle px-0 text-white">
+                        {role !== "2" ? <Link to="/dashboard/retailer/home" className="nav-link align-middle px-0 text-white">
                             <i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline">Home</span>
-                        </Link>
+                        </Link> : <Link to="/dashboard/customer/home" className="nav-link align-middle px-0 text-white">
+                            <i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline">Home</span>
+                        </Link>}
                     </li>
                     <li>
                         <Link to="#submenu2" data-bs-toggle="collapse" className="nav-link px-0 align-middle text-white">
@@ -73,9 +77,9 @@ const RetailerDashboard = () => {
                 </ul>
             </div>
         </div>
-        <div className="col p-0 m-0 dashboard_content">
+        <div className="col p-0 m-0 dashboard_content bg-light">
             <div className="p-2 d-flex justify-content-center shadow text-white content">
-              <h3 className="fw-bold text-light mx-5 py-1">Mult-Agency Gas supply Management System</h3>
+              {(role === "0" || role === "1") ? <h3 className="fw-bold text-light mx-5 py-1">Mult-Agency Gas supply Management System</h3> : <h3 className="text-info fw-bold ms-4">Let's Shop</h3>}
               <div className="dropdown ms-auto py-2">
                     <Link to="#" className="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src={profile} alt="hugenerd" width="30" height="30" className="rounded-circle" />

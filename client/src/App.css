@@ -9,7 +9,7 @@
 }
 
 .dashboard_content_cust {
-    background-color: aquamarine;
-    background-image: url("./components/images/gas-3.jpeg");
+    background-color: rgb(192, 203, 26);
+    /* background-image: url("./components/images/gas-3.jpeg"); */
     background-size: cover;
 }
