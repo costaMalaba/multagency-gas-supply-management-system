@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
+import {toast } from "react-toastify";
 
 const ViewRetailerPublished = () => {
   const [categories, setCategories] = useState([]);
@@ -15,6 +16,27 @@ const ViewRetailerPublished = () => {
   useEffect(() => {
     getCategories();
   }, []);
+
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete that material ?")) {
+      try {
+        await axios
+          .delete(`http://localhost:8900/material/delete/${id}`)
+          .then((res) => {
+            if (res.data.Status === "Success") {
+              toast.error(res.data.Message);
+              setTimeout(() => {
+                window.location.reload(true);
+              }, 5000);
+            } else {
+              alert("Error");
+            }
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   return (
     <div className="container">
@@ -53,7 +75,13 @@ const ViewRetailerPublished = () => {
                     <Link to="" className="btn btn-warning me-2">
                         Edit
                     </Link>
-                    <button className="btn btn-danger">Delete</button>
+                    <button
+                    onClick={(e) => handleDelete(category.id)}
+                    title="Delete"
+                    className="btn btn-sm btn-danger me-3"
+                  >
+                    <i className="bi bi-trash"></i>
+                  </button>
                   </div>
                   <div className="card-footer text-muted text-end">
                     {category.time_taken} Minutes Ago

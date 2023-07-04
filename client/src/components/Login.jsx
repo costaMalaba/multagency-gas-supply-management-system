@@ -74,13 +74,8 @@ const Login = () => {
         <div className="col-3"></div>
 
         <div className="card col-6 border-0 shadow bg-light">
-          <div className="card-header bg-light text-center">
-            <img
-              src={Logo}
-              className="card-img-top"
-              style={{ width: "18rem", height: "10rem" }}
-              alt="Not Found"
-            />
+          <div className="card-header bg-light text-center fs-2 fw-bolder text-danger">
+            <p>MAG SUPPLY</p>
           </div>
 
           <div className="card-body">

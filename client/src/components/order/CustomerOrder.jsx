@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import moment from "moment";
 
 const CustomerOrder = () => {
   const [orders, setOrders] = useState([]);
@@ -96,7 +97,7 @@ const CustomerOrder = () => {
       <table className="table table-striped fs-5 bg-light shadow">
         <thead>
           <tr className="text-center fs-4 bg-info text-dark">
-            <th colSpan={9} className="p-3">
+            <th colSpan={10} className="p-3">
               List of Orders
             </th>
           </tr>
@@ -125,6 +126,7 @@ const CustomerOrder = () => {
             <th scope="col" className="p-3">
               Status
             </th>
+            <th scope="col" className="p-3 text-center">Last Time Created</th>
             <th scope="col" className="p-3 text-center">
               Actions
             </th>
@@ -149,6 +151,7 @@ const CustomerOrder = () => {
                 <td className="p-3 text-center">{order.quantity}</td>
                 <td className="p-3">{order.total_price}/-</td>
                 <td className="p-3">{order.status}</td>
+                <td className="p-3 text-center">{moment(order.updated_at).format("DD-MM-YYYY")}</td>
                   {order.customer_username === username && <td className="p-3 text-center">
                   <Link to="/dashboard/customer/view/order/pay">
                     <button className="btn btn-info btn-sm fw-bold me-2">

@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import brandimg from "../images/logo.png";
 import profile from "../images/oryx-2.jpg";
 
 const WholeSalerDashboard = () => {
@@ -23,8 +22,7 @@ const WholeSalerDashboard = () => {
         <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 sidebar">
             <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                 <Link to="/dashboard/saler/home" className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                <img src={brandimg} alt="Not Found" style={{width: "80px", height: "60px"}} className="me-2 rounded-circle" />
-                    <span className="fs-5 d-none d-sm-inline">Make Life Easy</span>
+                <p className="text-center bg-white rounded-circle text-danger fs-3 p-3 fw-bolder">MAG SUPPLY</p>
                 </Link>
                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start fs-4 fw-semibold" id="menu">
                     <li className="nav-item">
@@ -62,7 +60,7 @@ const WholeSalerDashboard = () => {
               <div className="dropdown ms-auto py-2">
                     <Link to="#" className="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src={profile} alt="hugenerd" width="30" height="30" className="rounded-circle" />
-                        <span className="d-none d-sm-inline mx-1">Whole Saler</span>
+                        <span className="d-none d-sm-inline mx-1">{username}</span>
                     </Link>
                     <ul className="dropdown-menu dropdown-menu-dark text-small shadow">
                         <li><Link className="dropdown-item" to="#">Settings</Link></li>

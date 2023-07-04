@@ -1,7 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import session from "express-session";
 
 import logIn from "./routes/auth.js";
 import Register from "./routes/register.js";
@@ -22,15 +21,8 @@ app.use(cors({
     methods: ["POST", "GET", "PUT", "DELETE"],
     credentials: true
 }));
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-  })
-);
 
-const PORT = process.env.PORT;
+const PORT = 8900;
 
 app.use("/auth", logIn);
 app.use("/", Register);
