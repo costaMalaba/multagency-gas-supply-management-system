@@ -26,12 +26,21 @@ export const addOrder = (req, res) => {
 
 export const getOrders = (req, res) => {
     const username = req.query.term;
-    const q = 'SELECT * FROM gas_order JOIN gas ON gas_order.gas_id = gas.id WHERE (gas_order.customer_username=? OR gas_order.retailer_username=?) ORDER BY gas_order.updated_at';
+    const q = 'SELECT * FROM gas_order JOIN gas ON gas_order.gas_id = gas.id WHERE gas_order.customer_username=? ORDER BY gas_order.updated_at';
+    const q1 = 'SELECT * FROM gas_order JOIN gas ON gas_order.gas_id = gas.id WHERE gas_order.retailer_username=? ORDER BY gas_order.updated_at';
 
-    con.query(q, [username, username], (err, result) => {
+    con.query(q1, [username], (err, result) => {
         if(err) {
             return res.status(500).json({ Status: "Fail", Message: "Error in Query!!", Result: err });
-        } else {
+        } else if (result.length === 0) {
+            con.query(q, [username], (err, result) => {
+                if (err) {
+                    return res.status(500).json({ Status: "Fail", Message: "Error in Query!!", Result: err });
+                } else {
+                    return res.status(200).json({ Status: "Success", Result: result });
+                }
+            })
+        }else {
             return res.status(200).json({ Status: "Success", Result: result });
         }
     })

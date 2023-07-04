@@ -40,7 +40,7 @@ const Login = () => {
             sessionStorage.setItem('role', res.data.Result[0].role);
 
             setTimeout(() => {
-              window.location.href = "/dashboard/saler/home";
+              window.location.href = "/dashboard/retailer/home";
               toast.success(res.data.Message);
             }, 500);
           } else if (res.data.Status === "C_Success") {
@@ -48,7 +48,7 @@ const Login = () => {
             sessionStorage.setItem('role', res.data.Result[0].role);
 
             setTimeout(() => {
-              window.location.href = "/dashboard/customer/home";
+              window.location.href = "/dashboard/retailer/home";
               toast.success(res.data.Message);
             }, 500);
           } else {

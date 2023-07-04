@@ -1,6 +1,5 @@
 import Login from "./components/Login";
-import RetailerDashboard from "./components/dashboard/RetailerDashboard";
-import WholeSalerDashboard from "./components/dashboard/WholeSalerDashboard";
+import Dashboard from "./components/dashboard/RetailerDashboard";
 import RegisterRetailer from "./components/retailer/RegisterRetailer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -9,7 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
 import DashNavbar from "./components/dashboard/DashNavbar";
-import CustomerDashboard from "./components/customer/CustomerDashboard";
 import RetailerCategory from "./components/categories/RetailerCategory";
 import ViewRetailerPublished from "./components/retailer/ViewRetailerPublished";
 import ViewSalerPublished from "./components/wholesaler/ViewSalerPublished";
@@ -33,7 +31,7 @@ const router = createBrowserRouter([
   // Retailer
   {
     path: "/dashboard/retailer",
-    element: <RetailerDashboard />,
+    element: <Dashboard />,
     children: [
       {
         path: "/dashboard/retailer/home",
@@ -61,7 +59,7 @@ const router = createBrowserRouter([
   // Wholesaler
   {
     path: "/dashboard/saler",
-    element: <WholeSalerDashboard />,
+    element: <Dashboard />,
     children: [
       {
         path: "/dashboard/saler/home",
@@ -81,7 +79,7 @@ const router = createBrowserRouter([
   // Customer
   {
     path: "/dashboard/customer",
-    element: <CustomerDashboard />,
+    element: <Dashboard />,
     children: [
       {
         path: "/dashboard/customer/home",

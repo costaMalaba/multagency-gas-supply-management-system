@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import moment from "moment";
 
 const CustomerOrder = () => {
+    const role = sessionStorage.getItem('role');
   const [orders, setOrders] = useState([]);
   const [creator, setCreator] = useState();
   const username = sessionStorage.getItem("username");
@@ -97,7 +98,7 @@ const CustomerOrder = () => {
       <table className="table table-striped fs-5 bg-light shadow">
         <thead>
           <tr className="text-center fs-4 bg-info text-dark">
-            <th colSpan={10} className="p-3">
+            <th colSpan={12} className="p-3">
               List of Orders
             </th>
           </tr>
@@ -105,17 +106,23 @@ const CustomerOrder = () => {
             <th scope="col" className="p-3">
               #
             </th>
-            <th scope="col" className="p-3">
+            {role === "2" && <th scope="col" className="p-3">
+              To
+            </th>}
+            {role !== "2" && <th scope="col" className="p-3">
               Name
-            </th>
+            </th>}
             <th scope="col" className="p-3">
               Image
             </th>
             <th scope="col" className="p-3">
-              Gas Brand
+              Brand
             </th>
             <th scope="col" className="p-3">
-              Gas Weight
+              Branch
+            </th>
+            <th scope="col" className="p-3">
+              Weight
             </th>
             <th scope="col" className="p-3 text-center">
               Quantity
@@ -137,7 +144,8 @@ const CustomerOrder = () => {
             return (
               <tr key={index}>
                 <td className="fw-bold p-3">{index + 1}</td>
-                <td className="p-3">{order.customer_username}</td>
+                {role === "2" && <td className="p-3 text-uppercase">{order.creator}</td>}
+                {role !== "2" && <td className="p-3">{order.customer_username}</td>}
                 <td className="">
                   <img
                     src={`http://localhost:8900/images/` + order.image}
@@ -147,7 +155,8 @@ const CustomerOrder = () => {
                   />
                 </td>
                 <td className="p-3 text-uppercase">{order.brand}</td>
-                <td className="p-3">{order.weight}</td>
+                <td className="p-3">{order.branch}</td>
+                <td className="p-3">{order.weight} Kg</td>
                 <td className="p-3 text-center">{order.quantity}</td>
                 <td className="p-3">{order.total_price}/-</td>
                 <td className="p-3">{order.status}</td>
@@ -183,7 +192,7 @@ const CustomerOrder = () => {
           })}
         </tbody>
       </table>
-      {creator === username ? <p></p> : <Link to="/dashboard/customer/home" className="px-0">
+      {role === "2" && <Link to="/dashboard/customer/home" className="px-0">
         <button className="btn btn-lg btn-success">
           <i className="bi bi-plus-circle me-2"></i>Add order
         </button>
