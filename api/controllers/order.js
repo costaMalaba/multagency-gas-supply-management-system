@@ -24,7 +24,7 @@ export const addOrder = (req, res) => {
             message: `Habari, ${retailer_username} \nMteja ${customer_username}, ametuma oda ya gas ${quantity} \nThamani ya oda: ${price} \nAsante...`,
           };
 
-          sendSMS(options);
+        //   sendSMS(options);
 
           // Send Email to Retailer
           const text = `Habari, ${retailer_username} \nMteja ${customer_username}, ametuma oda ya gas ${quantity} \nThamani ya oda: ${price} \nAsante...`;
@@ -38,14 +38,24 @@ export const addOrder = (req, res) => {
 
 export const getOrders = (req, res) => {
     const username = req.query.term;
+    const role = req.query.term1;
     const q = 'SELECT * FROM gas_order JOIN gas ON gas_order.gas_id = gas.id WHERE gas_order.customer_username=? ORDER BY gas_order.updated_at';
     const q1 = 'SELECT * FROM gas_order JOIN gas ON gas_order.gas_id = gas.id WHERE gas_order.retailer_username=? ORDER BY gas_order.updated_at';
+    const q2 = 'SELECT * FROM gas_order JOIN gas ON gas_order.gas_id = gas.id WHERE gas_order.customer_username=? AND gas.role=? ORDER BY gas_order.updated_at';
 
     con.query(q1, [username], (err, result) => {
         if(err) {
             return res.status(500).json({ Status: "Fail", Message: "Error in Query!!", Result: err });
         } else if (result.length === 0) {
             con.query(q, [username], (err, result) => {
+                if (err) {
+                    return res.status(500).json({ Status: "Fail", Message: "Error in Query!!", Result: err });
+                } else {
+                    return res.status(200).json({ Status: "Success", Result: result });
+                }
+            })
+        }else if (role === "0") {
+            con.query(q2, [username, role], (err, result) => {
                 if (err) {
                     return res.status(500).json({ Status: "Fail", Message: "Error in Query!!", Result: err });
                 } else {

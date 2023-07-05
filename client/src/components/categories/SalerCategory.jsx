@@ -54,7 +54,7 @@ const SalerCategory = () => {
                       {category.price}/-
                     </p>
                     <p className="card-text fs-5">{category.description}</p>
-                    <Link to={`/dashboard/customer/order/${category.gas_id}`}>
+                    <Link to={`/dashboard/retailer/order/${category.gas_id}`}>
                       <div className="btn btn-success">Start Your Order</div>
                     </Link>
                   </div>

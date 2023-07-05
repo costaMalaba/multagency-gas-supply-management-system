@@ -22,7 +22,7 @@ app.use(cors({
     credentials: true
 }));
 
-const PORT = 8900;
+const PORT = process.env.PORT;
 
 app.use("/auth", logIn);
 app.use("/", Register);

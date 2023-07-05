@@ -93,30 +93,42 @@ export const addGas = (req, res) => {
   });
 };
 
+// export const getAllGases = (req, res) => {
+//   const q = `SELECT *, TIMESTAMPDIFF(MINUTE, created_at, NOW()) AS time_taken FROM gas WHERE creator=?`;
+//   const { id } = req.params;
+
+//   con.query(q, [id], (err, result) => {
+//     if (err) {
+//       return res
+//         .status(500)
+//         .json({ Status: "Error", Message: "Error In Querying!!", Result: err });
+//     } else {
+//       return res.status(200).json({ Status: "Success", Result: result });
+//     }
+//   });
+// };
+
 export const getAllGases = (req, res) => {
-  const q = `SELECT *, TIMESTAMPDIFF(MINUTE, created_at, NOW()) AS time_taken FROM gas WHERE creator=?`;
-  const { id } = req.params;
+  const q = `SELECT *, g.id as gas_id, TIMESTAMPDIFF(MINUTE, created_at, NOW()) AS time_taken FROM gas g, retailer r WHERE g.role=r.role AND r.role=? AND r.username=?`;
+  const q1 = `SELECT *, g.id as gas_id, TIMESTAMPDIFF(MINUTE, created_at, NOW()) AS time_taken FROM gas g JOIN wholesaler w ON g.role=w.role WHERE w.role=? AND w.username=?`;
+  const { username, role } = req.query;
 
-  con.query(q, [id], (err, result) => {
+  con.query(q, [role, username], (err, result) => {
     if (err) {
       return res
         .status(500)
         .json({ Status: "Error", Message: "Error In Querying!!", Result: err });
-    } else {
-      return res.status(200).json({ Status: "Success", Result: result });
-    }
-  });
-};
-
-export const getAllRetailerGases = (req, res) => {
-  const q = `SELECT *, g.id as gas_id, TIMESTAMPDIFF(MINUTE, created_at, NOW()) AS time_taken FROM gas g, retailer r WHERE g.role=r.role AND g.role='1' AND r.role='1'`;
-
-  con.query(q, (err, result) => {
-    if (err) {
-      return res
+    } else if(role === "0") {
+      con.query(q1, [role, username], (err, result) => {
+        if (err) {
+          return res
         .status(500)
         .json({ Status: "Error", Message: "Error In Querying!!", Result: err });
-    } else {
+        } else {
+          return res.status(200).json({ Status: "Success", Result: result });
+        }
+      })
+    }else {
       return res.status(200).json({ Status: "Success", Result: result });
     }
   });
@@ -137,8 +149,37 @@ export const getAllSalerGases = (req, res) => {
   });
 };
 
+export const getAllRetailerGases = (req, res) => {
+  const q = `SELECT *, g.id as gas_id, TIMESTAMPDIFF(MINUTE, created_at, NOW()) AS time_taken FROM gas g, retailer r WHERE g.role=r.role AND r.role="1"`;
+
+  con.query(q, (err, result) => {
+    if (err) {
+      return res
+        .status(500)
+        .json({ Status: "Error", Message: "Error In Querying!!", Result: err });
+    } else {
+      return res.status(200).json({ Status: "Success", Result: result });
+    }
+  });
+};
+
 export const getSingleGas = (req, res) => {
   const q = `SELECT g.*, TIMESTAMPDIFF(MINUTE, g.created_at, NOW()) AS time_taken, email, phn_numb FROM gas g JOIN retailer r ON r.username=g.creator WHERE g.id = ?`;
+  const { id } = req.params;
+
+  con.query(q, [id], (err, result) => {
+    if (err) {
+      return res
+        .status(500)
+        .json({ Status: "Error", Message: "Error In Querying!!", Result: err });
+    } else {
+      return res.status(200).json({ Status: "Success", Result: result });
+    }
+  });
+};
+
+export const getSingleGasReta = (req, res) => {
+  const q = `SELECT g.*, TIMESTAMPDIFF(MINUTE, g.created_at, NOW()) AS time_taken, email, phn_numb FROM gas g JOIN wholesaler w ON w.username=g.creator WHERE g.id = ?`;
   const { id } = req.params;
 
   con.query(q, [id], (err, result) => {
@@ -173,9 +214,8 @@ export const deleteGas = (req, res) => {
   con.query(q1, [id], (err, result) => {
     if (err) {
       return res.json({ Status: "Error", Message: "Error In Query!!" });
-    } else {
-      if (result.length === 0) {
-        return res.status(404).json({
+    } else if (result.length === 0) {
+        return res.json({
           Status: "Error",
           Message: `Gas with ID: ${id} Not Found`,
           Result: result,
@@ -193,6 +233,5 @@ export const deleteGas = (req, res) => {
           }
         });
       }
-    }
   });
 };

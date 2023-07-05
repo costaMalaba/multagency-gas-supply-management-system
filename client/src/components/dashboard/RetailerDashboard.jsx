@@ -46,14 +46,14 @@ const RetailerDashboard = () => {
                                 <Link to="/dashboard/retailer/view/order" className="nav-link px-0"> <span className="d-none d-sm-inline text-light">View</span></Link>
                             </li>}
                             {role === "1" && <li className="w-100">
-                                <Link to="/dashboard/retailer/view/order" className="nav-link px-0"> <span className="d-none d-sm-inline text-light">Sent</span></Link>
+                                <Link to="/dashboard/retailer/view/order/sent/0" className="nav-link px-0"> <span className="d-none d-sm-inline text-light">Sent</span></Link>
                             </li>}
                             {role === "1" && <li>
                                 <Link to="/dashboard/retailer/start/order/2" className="nav-link px-0"> <span className="d-none d-sm-inline text-light">Make Order</span></Link>
                             </li>}
                         </ul>
                     </li>
-                    {role === "0" && role === "1" && <li>
+                    {(role === "0" || role === "1") && <li>
                         <Link to="#submenu" data-bs-toggle="collapse" className="nav-link px-0 align-middle text-white">
                             <i className="fs-4 bi-file-medical"></i> <span className="ms-1 d-none d-sm-inline">Publish</span></Link>
                         <ul className="collapse nav flex-column ms-1" id="submenu" data-bs-parent="#menu">
@@ -70,7 +70,7 @@ const RetailerDashboard = () => {
                             <i className="fs-4 bi-credit-card"></i> <span className="ms-1 d-none d-sm-inline">Payment</span></Link>
                         <ul className="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                             <li>
-                                <Link to="#" className="nav-link px-0"> <span className="d-none d-sm-inline text-light">View</span></Link>
+                                <Link to="/dashboard/retailer/view/order/payment" className="nav-link px-0"> <span className="d-none d-sm-inline text-light">View</span></Link>
                             </li>
                         </ul>
                     </li>

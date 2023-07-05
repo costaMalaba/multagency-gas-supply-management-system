@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {toast } from "react-toastify";
 
 const ViewRetailerPublished = () => {
+  const username = sessionStorage.getItem('username');
+    const role = sessionStorage.getItem('role');
   const [categories, setCategories] = useState([]);
-  const { id } = useParams();
 
   const getCategories = async () => {
-    await axios.get(`http://localhost:8900/gas/get/${id}`).then((res) => {
+    await axios.get(`http://localhost:8900/gas/get/?username=${username}&role=${role}`).then((res) => {
       setCategories(res.data.Result);
     });
   };
@@ -18,10 +19,10 @@ const ViewRetailerPublished = () => {
   }, []);
 
   const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete that material ?")) {
+    if (window.confirm("Are you sure you want to delete the item ?")) {
       try {
         await axios
-          .delete(`http://localhost:8900/material/delete/${id}`)
+          .delete(`http://localhost:8900/gas/delete/${id}`)
           .then((res) => {
             if (res.data.Status === "Success") {
               toast.error(res.data.Message);
@@ -69,14 +70,11 @@ const ViewRetailerPublished = () => {
                     </p>
                     <p className="fs-4">
                       <b>Remains: </b>
-                      {category.quantity}
+                      {category.quantity_remain}
                     </p>
                     <p className="card-text fs-5">{category.description}</p>
-                    <Link to="" className="btn btn-warning me-2">
-                        Edit
-                    </Link>
                     <button
-                    onClick={(e) => handleDelete(category.id)}
+                    onClick={(e) => handleDelete(category.gas_id)}
                     title="Delete"
                     className="btn btn-sm btn-danger me-3"
                   >

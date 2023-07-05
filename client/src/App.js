@@ -10,13 +10,14 @@ import "./App.css";
 import DashNavbar from "./components/dashboard/DashNavbar";
 import RetailerCategory from "./components/categories/RetailerCategory";
 import ViewRetailerPublished from "./components/retailer/ViewRetailerPublished";
-import ViewSalerPublished from "./components/wholesaler/ViewSalerPublished";
 import StartOder from "./components/order/StartOrder";
 import CustomerOrder from "./components/order/CustomerOrder";
 import SetPayment from "./components/payment/SetPayment";
 import SalerCategory from "./components/categories/SalerCategory";
 import RetailerAddPublish from "./components/publish/RetailerAddPublish";
 import SalerAddPublish from "./components/publish/SalerAddPublish";
+import StartOderRe from "./components/order/StartOrderReta";
+import PaymentDetails from "./components/payment/Details";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
         element: <DashNavbar />
       },
       {
+        path: "/dashboard/retailer/order/:id",
+        element: <StartOderRe />
+      },
+      {
         path: "/dashboard/retailer/publish",
         element: <RetailerAddPublish />
       },
@@ -47,6 +52,14 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard/retailer/view/order",
+        element: <CustomerOrder />
+      },
+      {
+        path: "/dashboard/retailer/view/order/payment",
+        element: <PaymentDetails />
+      },
+      {
+        path: "/dashboard/retailer/view/order/sent/:id",
         element: <CustomerOrder />
       },
       {
@@ -71,7 +84,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard/saler/publish/view/:id",
-        element: <ViewSalerPublished />
+        element: <ViewRetailerPublished />
       },
     ]
   },

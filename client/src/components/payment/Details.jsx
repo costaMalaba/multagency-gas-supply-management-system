@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import moment from "moment";
 
-const CustomerOrder = () => {
+const PaymentDetails = () => {
     const role = sessionStorage.getItem('role');
   const [orders, setOrders] = useState([]);
   const [creator, setCreator] = useState();
@@ -100,7 +100,7 @@ const CustomerOrder = () => {
         <thead>
           <tr className="text-center fs-4 bg-info text-dark">
             <th colSpan={12} className="p-3">
-              List of Orders
+              Payment Details
             </th>
           </tr>
           <tr className="ext-dark">
@@ -117,27 +117,12 @@ const CustomerOrder = () => {
               Image
             </th>
             <th scope="col" className="p-3">
-              Brand
-            </th>
-            <th scope="col" className="p-3">
-              Branch
-            </th>
-            <th scope="col" className="p-3">
-              Weight
-            </th>
-            <th scope="col" className="p-3 text-center">
-              Quantity
-            </th>
-            <th scope="col" className="p-3">
               Total Price
             </th>
             <th scope="col" className="p-3">
               Status
             </th>
             <th scope="col" className="p-3 text-center">Last Time Created</th>
-            <th scope="col" className="p-3 text-center">
-              Actions
-            </th>
           </tr>
         </thead>
         <tbody>
@@ -155,39 +140,9 @@ const CustomerOrder = () => {
                     className="rounded-circle"
                   />
                 </td>
-                <td className="p-3 text-uppercase">{order.brand}</td>
-                <td className="p-3">{order.branch}</td>
-                <td className="p-3">{order.weight} Kg</td>
-                <td className="p-3 text-center">{order.quantity}</td>
                 <td className="p-3">{order.total_price}/-</td>
                 <td className="p-3">{order.status}</td>
-                <td className="p-3 text-center">{moment(order.updated_at).format("DD-MM-YYYY")}</td>
-                  {order.customer_username === username && <td className="p-3 text-center">
-                  <Link to="/dashboard/customer/view/order/pay">
-                    <button className="btn btn-info btn-sm fw-bold me-2">
-                      Lipa Kwa Simu
-                    </button>
-                  </Link>
-                  <button
-                    type="submit"
-                    onClick={() => handlePay(order.total_price)}
-                    // onClick={() => handlePayment(order.total_price)}
-                    className="btn btn-sm btn-success"
-                  >
-                    Pay Now
-                  </button>
-                    </td>}
-
-                    {order.creator === username && <td className="p-3 text-center">
-                    <button
-                    onClick={(e) => handleDelete(order.order_id)}
-                    title="Delete"
-                    className="btn btn-sm btn-danger me-3"
-                  >
-                    <i className="bi bi-trash"></i>
-                  </button>
-                    </td>}
-                  
+                <td className="p-3 text-center">{moment(order.updated_at).format("DD-MM-YYYY")}</td> 
               </tr>
             );
           })}
@@ -203,4 +158,4 @@ const CustomerOrder = () => {
   );
 };
 
-export default CustomerOrder;
+export default PaymentDetails;
