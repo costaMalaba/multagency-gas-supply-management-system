@@ -30,7 +30,7 @@ export const addOrder = (req, res) => {
           const text = `Habari, ${retailer_username} \nMteja ${customer_username}, ametuma oda ya gas ${quantity} \nThamani ya oda: ${price} \nAsante...`;
           const subject = "MAG SUPPLY - OMBI LA UNUNUZI";
 
-          sendMail(email, text, subject);
+        //   sendMail(email, text, subject);
             return res.status(201).json({ Status: "Success", Message: "Order placed successfully", Result: result });
         }
     })
@@ -79,5 +79,16 @@ export const deleteOrder = (req, res) => {
         Message: "Order Deleted Successfully!!",
         Result: result,
       });
+    });
+  };
+
+  export const countOrders = (req, res) => {
+    const q = 'SELECT  COUNT(*) AS orders FROM gas_order JOIN gas ON gas_order.gas_id = gas.id';
+    con.query(q, (err, result) => {
+      if (err) {
+        return res.json({ Error: err });
+      } else {
+        return res.status(200).json({ Status: "Success", Result: result });
+      }
     });
   };

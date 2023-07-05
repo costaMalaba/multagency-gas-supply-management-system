@@ -12,6 +12,8 @@ const Login = () => {
     password: "",
   });
 
+  const username = sessionStorage.getItem('username');
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -31,7 +33,7 @@ const Login = () => {
             sessionStorage.setItem('role', res.data.Result[0].role);
 
             setTimeout(() => {
-              navigate("/dashboard/retailer/home");
+              navigate("/dashboard/retailer/start/order/2");
               toast.success(res.data.Message);
             }, 500);
           } else if (res.data.Status === "W_Success") {
@@ -39,7 +41,7 @@ const Login = () => {
             sessionStorage.setItem('role', res.data.Result[0].role);
 
             setTimeout(() => {
-              window.location.href = "/dashboard/retailer/home";
+              window.location.href = `/dashboard/retailer/publish/view/${username}`;
               toast.success(res.data.Message);
             }, 500);
           } else if (res.data.Status === "C_Success") {
@@ -47,7 +49,7 @@ const Login = () => {
             sessionStorage.setItem('role', res.data.Result[0].role);
 
             setTimeout(() => {
-              window.location.href = "/dashboard/retailer/home";
+              window.location.href = "/dashboard/customer/home";
               toast.success(res.data.Message);
             }, 500);
           } else {
@@ -55,11 +57,10 @@ const Login = () => {
           }
         });
     } catch (error) {
-      console.log(error);
+      toast.warning("Wrong Username or Password");
+      console.error(error);
     }
   };
-
-  console.log(inputs);
 
   return (
     <div className="container-fluid cover-1 vh-100 loading-page">

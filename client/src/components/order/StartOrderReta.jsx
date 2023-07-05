@@ -63,7 +63,7 @@ const StartOderRe = () => {
           .then((res) => {
             if (res.data.Status === "Success") {
               setTimeout(() => {
-                navigate("/dashboard/retailer/view/order");
+                navigate("/dashboard/retailer/view/order/sent/0");
                 toast.success(res.data.Message);
               },1000);
               updateGas();

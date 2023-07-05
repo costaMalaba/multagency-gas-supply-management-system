@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
 import moment from "moment";
 
 const PaymentDetails = () => {
-    const role = sessionStorage.getItem('role');
+  const role = sessionStorage.getItem('role');
   const [orders, setOrders] = useState([]);
-  const [creator, setCreator] = useState();
   const username = sessionStorage.getItem("username");
   const { id } = useParams();
   console.log(id)
@@ -22,80 +20,13 @@ const PaymentDetails = () => {
       .then((res) => {
         if (res.data.Status === "Success") {
           setOrders(res.data.Result);
-          setCreator(res.data.Result[0].creator);
         }
       })
       .catch((err) => console.log(err));
-  };
-
-  const handleSearch = async (e) => {
-    let searchTerm = e.target.value;
-    await axios
-      .get(`http://localhost:8900/order/search?term=${searchTerm}`)
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          setOrders(res.data.Result);
-        }
-      })
-      .catch((err) => console.log(err));
-  };
-
-  // const handlePayment = async (price) => {
-  //   try {
-  //     // Make a POST request to your backend endpoint that initiates the payment
-  //     const response = await axios.post("http://localhost:8900/gas/pay", {
-  //       tx_ref: uuid(),
-  //       amount: price, // Set the amount for the payment
-  //       email: "costantineyohana1999@gmail.com", // Set the customer's email
-  //       currency: "TZS",
-  //       // Include any other required parameters
-  //     });
-
-  //     // Retrieve the payment URL from the response
-  //     const paymentUrl = response.data.paymentUrl;
-
-  //     // Redirect the user to the Flutterwave payment page
-  //       window.location.href = paymentUrl;
-
-  //     // window.location.href = paymentUrl;
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  const handleDelete = async (id) => {
-    if (window.confirm("Are you sure you want to delete that order ?")) {
-      try {
-        await axios
-          .delete(`http://localhost:8900/order/delete/${id}`)
-          .then((res) => {
-            if (res.data.Status === "Success") {
-              toast.error(res.data.Message);
-              setTimeout(() => {
-                window.location.reload(true);
-              }, 5000);
-            } else {
-              alert("Error");
-            }
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-
-  const handlePay = (price) => {
-    window.location.href = "#";
   };
 
   return (
     <div className="container-fluid p-5">
-      <input
-        type=""
-        onChange={handleSearch}
-        placeholder="Search order"
-        className="form-control text-center my-3 fs-4"
-      />
       <table className="table table-striped fs-5 bg-light shadow">
         <thead>
           <tr className="text-center fs-4 bg-info text-dark">

@@ -22,16 +22,24 @@ const RetailerDashboard = () => {
     <div className="row flex-nowrap">
         <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 sidebar">
             <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                {role !== "2" ? <Link to="/dashboard/retailer/home" className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                    <p className="text-center bg-white rounded-circle text-danger fs-3 p-3 fw-bolder">MAG SUPPLY</p>
-                </Link> : <Link to="/dashboard/customer/home" className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                {role === "0" && <Link to={`/dashboard/retailer/publish/view/${username}`} className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                     <p className="text-center bg-white rounded-circle text-danger fs-3 p-3 fw-bolder">MAG SUPPLY</p>
                 </Link>}
+                {role === "1" && <Link to="/dashboard/retailer/start/order/2" className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <p className="text-center bg-white rounded-circle text-danger fs-3 p-3 fw-bolder">MAG SUPPLY</p>
+                </Link>}
+                {role === "2" && <Link to="/dashboard/customer/home" className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <p className="text-center bg-white rounded-circle text-danger fs-3 p-3 fw-bolder">MAG SUPPLY</p>
+            </Link>}
                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start fs-4 fw-semibold" id="menu">
                     <li className="nav-item">
-                        {role !== "2" ? <Link to="/dashboard/retailer/home" className="nav-link align-middle px-0 text-white">
+                        {role === "0" && <Link to={`/dashboard/retailer/publish/view/${username}`} className="nav-link align-middle px-0 text-white">
                             <i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline">Home</span>
-                        </Link> : <Link to="/dashboard/customer/home" className="nav-link align-middle px-0 text-white">
+                        </Link>}
+                        {role === "1" && <Link to="/dashboard/retailer/start/order/2" className="nav-link align-middle px-0 text-white">
+                            <i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline">Home</span>
+                        </Link>}
+                        {role === "2" && <Link to="/dashboard/customer/home" className="nav-link align-middle px-0 text-white">
                             <i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-sm-inline">Home</span>
                         </Link>}
                     </li>
@@ -86,7 +94,6 @@ const RetailerDashboard = () => {
                         <span className="d-none d-sm-inline mx-1">{username}</span>
                     </Link>
                     <ul className="dropdown-menu dropdown-menu-dark text-small shadow">
-                        <li><Link className="dropdown-item" to="#">Settings</Link></li>
                         <li><Link className="dropdown-item" to="#">Your Profile</Link></li>
                         <li>
                             <hr className="dropdown-divider" />

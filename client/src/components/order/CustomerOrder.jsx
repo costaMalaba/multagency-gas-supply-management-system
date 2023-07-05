@@ -28,18 +28,6 @@ const CustomerOrder = () => {
       .catch((err) => console.log(err));
   };
 
-  const handleSearch = async (e) => {
-    let searchTerm = e.target.value;
-    await axios
-      .get(`http://localhost:8900/order/search?term=${searchTerm}`)
-      .then((res) => {
-        if (res.data.Status === "Success") {
-          setOrders(res.data.Result);
-        }
-      })
-      .catch((err) => console.log(err));
-  };
-
   // const handlePayment = async (price) => {
   //   try {
   //     // Make a POST request to your backend endpoint that initiates the payment
@@ -84,18 +72,8 @@ const CustomerOrder = () => {
     }
   };
 
-  const handlePay = (price) => {
-    window.location.href = "#";
-  };
-
   return (
     <div className="container-fluid p-5">
-      <input
-        type=""
-        onChange={handleSearch}
-        placeholder="Search order"
-        className="form-control text-center my-3 fs-4"
-      />
       <table className="table table-striped fs-5 bg-light shadow">
         <thead>
           <tr className="text-center fs-4 bg-info text-dark">
@@ -168,14 +146,6 @@ const CustomerOrder = () => {
                       Lipa Kwa Simu
                     </button>
                   </Link>
-                  <button
-                    type="submit"
-                    onClick={() => handlePay(order.total_price)}
-                    // onClick={() => handlePayment(order.total_price)}
-                    className="btn btn-sm btn-success"
-                  >
-                    Pay Now
-                  </button>
                     </td>}
 
                     {order.creator === username && <td className="p-3 text-center">
