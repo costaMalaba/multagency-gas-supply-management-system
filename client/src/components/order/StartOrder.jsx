@@ -20,6 +20,8 @@ const StartOder = () => {
     gas_id: id,
     quantity: idadi,
     price: totalPrice,
+    phone_no: gas.phn_numb,
+    email: gas.email,
   };
   console.log(data);
 
@@ -59,7 +61,6 @@ const StartOder = () => {
         await axios
           .post(`http://localhost:8900/order/add`, data)
           .then((res) => {
-            console.log(res.data)
             if (res.data.Status === "Success") {
               setTimeout(() => {
                 navigate("/dashboard/customer/view/order");
@@ -71,7 +72,7 @@ const StartOder = () => {
             }
           });
       } catch (error) {
-        console.error({ Message: error });
+        console.error(error);
       }
     }
   };

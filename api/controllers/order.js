@@ -1,9 +1,10 @@
 import con from "../db/database.js";
-import sendSMS from "../services/sendSMS/sendSMS.js";
+import sendSMS from "../services/sendSMS.js";
+import sendMail from "../services/sendEmail.js";
 
 export const addOrder = (req, res) => {
     const q = "INSERT INTO gas_order (`order_id`, `customer_username`, `retailer_username`, `gas_id`, `quantity`, `total_price`) VALUES (?)";
-    const { order_id, customer_username, retailer_username, gas_id, quantity, price } = req.body;
+    const { order_id, customer_username, retailer_username, gas_id, quantity, price, phone_no, email } = req.body;
     const values = [
         order_id,
         customer_username,
@@ -15,11 +16,22 @@ export const addOrder = (req, res) => {
 
     con.query(q, [values], (err, result) => {
         if(err) {
-            console.error(err);
-            return res.status(500).json({ Status: "Fail", Message: err });
+            return res.status(500).json({ Status: "Fail", Message: err, Result: err });
         } else {
-            // sendSMS();
-            return res.status(201).json({ Status: "Success", Message: "Your order placed successfully", Result: result });
+            // Send SMS to Retailer
+          const options = {
+            to: [`+${phone_no}`],
+            message: `Habari, ${retailer_username} \nMteja ${customer_username}, ametuma oda ya gas ${quantity} \nThamani ya oda: ${price} \nAsante...`,
+          };
+
+          sendSMS(options);
+
+          // Send Email to Retailer
+          const text = `Habari, ${retailer_username} \nMteja ${customer_username}, ametuma oda ya gas ${quantity} \nThamani ya oda: ${price} \nAsante...`;
+          const subject = "MAG SUPPLY - OMBI LA UNUNUZI";
+
+          sendMail(email, text, subject);
+            return res.status(201).json({ Status: "Success", Message: "Order placed successfully", Result: result });
         }
     })
 }
@@ -48,7 +60,6 @@ export const getOrders = (req, res) => {
 
 export const deleteOrder = (req, res) => {
     const id = req.params.id;
-    console.log(id)
     const q = "DELETE FROM gas_order WHERE order_id = ?";
   
     con.query(q, [id], (err, result) => {

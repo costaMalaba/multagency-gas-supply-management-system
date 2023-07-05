@@ -138,7 +138,7 @@ export const getAllSalerGases = (req, res) => {
 };
 
 export const getSingleGas = (req, res) => {
-  const q = `SELECT *, TIMESTAMPDIFF(MINUTE, created_at, NOW()) AS time_taken FROM gas WHERE id = ?`;
+  const q = `SELECT g.*, TIMESTAMPDIFF(MINUTE, g.created_at, NOW()) AS time_taken, email, phn_numb FROM gas g JOIN retailer r ON r.username=g.creator WHERE g.id = ?`;
   const { id } = req.params;
 
   con.query(q, [id], (err, result) => {

@@ -2,7 +2,6 @@ import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Logo from "../components/images/logo.png";
 import "../services/loadingPage.css";
 
 const Login = () => {
